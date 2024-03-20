@@ -11,6 +11,7 @@ use Inertia\Response; // Response de Inertia
 use Illuminate\Http\RedirectResponse; // Redireccionar la Response
 use Illuminate\Support\Facades\Redirect;
 
+
 class ChirpController extends Controller
 {
     /**
@@ -18,7 +19,12 @@ class ChirpController extends Controller
      */
     public function index(): Response
     {
-        return Inertia::render('Chirps/Index'); // (Chirps/Index, []); // Chirps/Index: Renderiza el jsx Index.jsx de la carpeta Chirps. El root es Pages/
+        return Inertia::render('Chirps/Index', [
+            'chirps' => Chirp::with('user:id,name')->latest()->get(),  
+        ]); 
+        //latest() muestra el ultimo en crearse
+        // Para produccion hay que paginar!
+        // (Chirps/Index, []); // Chirps/Index: Renderiza el jsx Index.jsx de la carpeta Chirps. El root es Pages/
     }
 
     /**
