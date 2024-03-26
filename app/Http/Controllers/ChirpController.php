@@ -11,6 +11,8 @@ use Inertia\Response; // Response de Inertia
 use Illuminate\Http\RedirectResponse; // Redireccionar la Response
 use Illuminate\Support\Facades\Redirect;
 
+use Illuminate\Support\Facades\Gate;
+
 
 class ChirpController extends Controller
 {
@@ -68,9 +70,17 @@ class ChirpController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Chirp $chirp)
+    public function update(Request $request, Chirp $chirp) : RedirectResponse
     {
-        //
+        Gate::authorize('update', $chirp);
+
+        $validated = $request -> validate([
+            'message' => 'required|string|max:255'
+        ]);
+
+        $chirp -> update($validated);
+
+        return redirect(route('chirps.index'));
     }
 
     /**

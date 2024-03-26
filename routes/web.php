@@ -26,7 +26,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('chirps', ChirpController::class)
-    ->only(['index', 'store']) // index -> GET; store -> POST;
+    ->only(['index', 'store', 'update']) // index -> GET (/chirps); store -> POST (/chirps); update -> PUT (/chirps/{chirp});
     ->middleware(['auth', 'verified']); // auth -> Solo usuarios logeados; verified -> email verification;
 
 require __DIR__.'/auth.php';
