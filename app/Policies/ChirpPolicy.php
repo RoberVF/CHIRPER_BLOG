@@ -1,5 +1,5 @@
 <?php
-
+// Solo permitimos las funciones para el autor del Chirp
 namespace App\Policies;
 
 use App\Models\Chirp;
@@ -13,7 +13,7 @@ class ChirpPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return false;
     }
 
     /**
@@ -21,7 +21,7 @@ class ChirpPolicy
      */
     public function view(User $user, Chirp $chirp): bool
     {
-        //
+        return false;
     }
 
     /**
@@ -29,7 +29,7 @@ class ChirpPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return false;
     }
 
     /**
@@ -45,7 +45,9 @@ class ChirpPolicy
      */
     public function delete(User $user, Chirp $chirp): bool
     {
-        //
+        // Llamamos a update porque la validacion de usuario es la misma.
+        // Todo el que este autorizado a editar estara autorizado a eliminar (en este caso, solamente el autor)
+        return $this -> update($user, $chirp);
     }
 
     /**
@@ -53,7 +55,7 @@ class ChirpPolicy
      */
     public function restore(User $user, Chirp $chirp): bool
     {
-        //
+        return false;
     }
 
     /**
@@ -61,6 +63,6 @@ class ChirpPolicy
      */
     public function forceDelete(User $user, Chirp $chirp): bool
     {
-        //
+        return false;
     }
 }
