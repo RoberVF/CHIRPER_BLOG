@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\ChirpCreated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,7 +14,12 @@ class Chirp extends Model
 
     // Protection to MASS Asignment Vulnerability
     protected $fillable = [
-        'message',
+        'message'
+    ];
+
+    protected $dispatchesEvents = [
+        // Cada vez que se cree un Chirp, ChirpCreated sera lanzada, para enviar un email
+        'created' => ChirpCreated::class
     ];
 
     public function user() : BelongsTo
